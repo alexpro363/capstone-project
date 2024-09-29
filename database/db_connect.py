@@ -10,7 +10,7 @@ DB_PORT = "5432"
 
 @contextmanager
 def get_db_connection():
-    """Context manager for PostgreSQL database connection."""
+    # Context manager for PostgreSQL database connection.
     conn = psycopg2.connect(
         dbname=DB_NAME,
         user=DB_USER,

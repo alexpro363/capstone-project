@@ -1,4 +1,4 @@
-from .database import get_db_cursor
+from .db_cursor import get_db_cursor
 
 def delete_products_and_reviews(query_id):
    

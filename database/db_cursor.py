@@ -1,9 +1,9 @@
 from contextlib import contextmanager
-from .database import get_db_connection
+from .db_connect import get_db_connection
 
 @contextmanager
 def get_db_cursor(commit=False):
-    """Context manager for PostgreSQL database cursor."""
+    # Context manager for PostgreSQL database cursor.
     with get_db_connection() as conn:
         cursor = conn.cursor()
         try:

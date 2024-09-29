@@ -1,10 +1,6 @@
-from .database import (
-    get_db_connection,
-    get_db_cursor,
-    insert_product,
-    get_product_by_asin,
-    insert_query,
-    query_exists,
-    delete_products_and_reviews,
-    
-)
+from .db_connect import get_db_connection
+from .db_cursor import get_db_cursor
+from .db_insert import insert_product, insert_query, insert_review, fetch_and_store_products, fetch_and_store_reviews, update_product_sentiment_score
+from .db_search_query import query_exists, manage_query
+from .db_delete import delete_products_and_reviews
+from .db_fetch import get_products_by_query_id, get_reviews_by_product_id, fetch_products_with_reviews

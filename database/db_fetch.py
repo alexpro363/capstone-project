@@ -1,18 +1,27 @@
-from .database import get_db_cursor
+from .db_cursor import get_db_cursor
 
-def get_product_by_asin(asin):
-    """Fetch a product by its ASIN."""
+def get_products_by_query_id(query_id):
+
+    #Fetch all products linked to a specific query ID from the database.
+    
+    #param query_id: The query ID to search for.
+    #return: A list of product dictionaries.
+
     with get_db_cursor() as cursor:
         cursor.execute(
             """
-            SELECT * FROM products WHERE asin = %s;
+            SELECT id, asin, title FROM products
+            WHERE query_id = %s;
             """,
-            (asin,)
+            (query_id,)
         )
-        return cursor.fetchone()
+        products = cursor.fetchall()
+    
+    return products
+
     
 def get_cheapest_products(query_id, limit=10):
-    """Fetch the 10 cheapest products for a given query from the database."""
+    #Fetch the 10 cheapest products for a given query from the database.
     with get_db_cursor() as cursor:
         cursor.execute(
             """
@@ -65,3 +74,20 @@ def get_query_id(search_query):
         return result[0]  # Return the query ID
     else:
         return None  # If no query found, return None
+    
+def fetch_products_with_reviews():
+    """
+    Fetch products that have reviews.
+    """
+    query = """
+    SELECT p.id, p.asin, p.title
+    FROM products p
+    JOIN reviews r ON p.id = r.product_id
+    GROUP BY p.id, p.asin, p.title
+    """
+    
+    with get_db_cursor() as cursor:
+        cursor.execute(query)
+        products = cursor.fetchall()
+        
+    return products
