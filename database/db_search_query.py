@@ -40,3 +40,34 @@ def manage_query(search_query):
         print(f"Inserted new query '{search_query}' with ID {query_id}.")
     
     return query_id
+
+def best_products(query_id, limit=5):
+    # Fetch the best products (cheapest with highest sentiment) for a given query ID
+    with get_db_cursor() as cursor:
+        cursor.execute(
+            """
+            SELECT id, asin, title, price, image_url, sentiment_score
+            FROM products
+            WHERE query_id = %s
+            ORDER BY sentiment_score DESC, price ASC
+            LIMIT %s;
+            """, (query_id, limit)
+        )
+        products = cursor.fetchall()
+
+    # Format the results into a list of dictionaries
+    best_products_list = []
+    for product in products:
+        asin = product[1]
+        product_url = f"https://www.amazon.com/dp/{asin}"
+        best_products_list.append({
+            'id': product[0],
+            'asin': asin,
+            'title': product[2],
+            'price': product[3],
+            'image_url': product[4],
+            'sentiment_score': product[5],
+            'product_url': product_url  # Amazon URL from asin
+        })
+
+    return best_products_list

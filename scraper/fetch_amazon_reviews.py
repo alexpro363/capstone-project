@@ -1,114 +1,107 @@
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
+import ssl
+import logging
+import traceback
+from urllib3.exceptions import MaxRetryError
+from selenium.common.exceptions import WebDriverException, TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
+from concurrent.futures import ThreadPoolExecutor, as_completed
 import time
 import random
-from .chrome_options import set_chrome_options  # Import Chrome options setup function
+from .chrome_options import create_driver  # Import Chrome options setup function
 
-# Path to ChromeDriver executable
-service = Service(r"C:\Users\Alexp\chromedriver-win64\chromedriver.exe")
+# Configure logging
+logging.basicConfig(filename='scraping_errors.log', level=logging.ERROR)
 
-def fetch_amazon_reviews(asin, max_pages=5):
-    #Fetches reviews for a specific Amazon product using its ASIN.
-    
-    #param asin: The ASIN of the product to fetch reviews for.
-    #param max_pages: The maximum number of review pages to scrape.
-    #return: A list of dictionaries containing review data.
-    
-    # Set up WebDriver with options
-    chrome_options = set_chrome_options()
-    driver = webdriver.Chrome(service=service, options=chrome_options)
-    
-    # Amazon reviews URL for a specific ASIN
-    url = f"https://www.amazon.com/product-reviews/{asin}/"
-    driver.get(url)
-    
-    all_reviews = []
-    current_page = 1
-    retries = 3  # Number of retries for each request if one fails
+def fetch_amazon_reviews(asin, max_pages=3):
+    """Fetches reviews for a specific Amazon product using its ASIN concurrently."""
+    retries = 6  # Number of retries for each request if one fails due to SSL error or page error
 
-    try:
-        while current_page <= max_pages:
-            print(f"Scraping reviews page {current_page} for ASIN: {asin}...")
-
-            # Check if page is blocked or contains CAPTCHA
-            if "Enter the characters you see below" in driver.page_source or "Sorry, we just need to make sure you're not a robot." in driver.page_source:
-                print("CAPTCHA encountered or request blocked. Retrying...")
-                time.sleep(random.uniform(5, 10))
-                driver.get(url)  # Retry the request
-                continue
-
-            # Random scroll to a position on the page to mimic human behavior
-            scroll_position = random.randint(500, 1500)
-            driver.execute_script(f"window.scrollTo(0, {scroll_position});")
-            time.sleep(random.uniform(1, 2))  # Random delay
-
-            # Scroll to the bottom of the page to ensure all content loads
-            driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-            time.sleep(random.uniform(2, 5))  # Wait for new content to load (if needed)
-
-            # Wait to ensure the reviews are fully loaded
+    def get_driver_with_retry():
+        """Attempt to create a WebDriver with retries for SSL errors or WebDriverExceptions."""
+        attempt = 0
+        while attempt < retries:
             try:
-                WebDriverWait(driver, 30).until(
+                driver = create_driver()
+                return driver
+            except (ssl.SSLError, MaxRetryError, WebDriverException) as e:
+                attempt += 1
+                logging.error(f"SSL or WebDriver error encountered: {e}. Retrying {attempt}/{retries}...")
+                time.sleep(2)  # Wait a bit before retrying
+        raise Exception("Max retries reached. Could not create a WebDriver instance.")
+
+    def scrape_review_page(asin, page_number):
+        """Scrapes a single review page with retry mechanism."""
+        max_page_retries = 3  # Number of retries for a single page
+        retries = 0
+        reviews = []
+
+        while retries < max_page_retries:
+            driver = get_driver_with_retry()
+            try:
+                logging.info(f"Scraping reviews page {page_number} for ASIN: {asin} (Attempt {retries + 1}/{max_page_retries})...")
+                url = f"https://www.amazon.com/product-reviews/{asin}/?pageNumber={page_number}"
+                driver.get(url)
+
+                # Check if the page contains CAPTCHA or is blocked
+                if "Enter the characters you see below" in driver.page_source or "Sorry, we just need to make sure you're not a robot." in driver.page_source:
+                    logging.warning(f"CAPTCHA encountered on page {page_number}. Retrying...")
+                    time.sleep(random.uniform(3, 5))  # Random delay to mimic human behavior
+                    driver.quit()
+                    retries += 1
+                    continue  # Retry the page with a new driver instance
+
+                # Random scroll to a position on the page to mimic human behavior
+                scroll_position = random.randint(500, 1500)
+                driver.execute_script(f"window.scrollTo(0, {scroll_position});")
+                time.sleep(random.uniform(1, 2))  # Random delay
+
+                # Scroll to the bottom of the page to ensure all content loads
+                driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+                time.sleep(random.uniform(2, 5))  # Wait for new content to load (if needed)
+
+                # Increase WebDriverWait timeout to 20 seconds to allow slower page loads
+                WebDriverWait(driver, 10).until(
                     EC.presence_of_all_elements_located((By.CSS_SELECTOR, "div.review"))
                 )
-            except Exception as e:
-                print(f"Error loading page content: {e}")
-                retries -= 1
-                if retries <= 0:
-                    break
-                continue  # Retry the current page if failed
 
-            # Random mouse movement
-            actions = ActionChains(driver)
-            actions.move_by_offset(random.randint(0, 100), random.randint(0, 100)).perform()
-            time.sleep(random.uniform(1, 3))
+                # Extract reviews from the page
+                review_elements = driver.find_elements(By.CSS_SELECTOR, "div.review")
+                for review in review_elements:
+                    try:
+                        review_text_element = review.find_elements(By.CSS_SELECTOR, "span.review-text-content span")
+                        review_text = review_text_element[0].text if review_text_element else "No Review Text"
+                        reviews.append({'Review Text': review_text})
+                    except Exception as e:
+                        logging.error(f"Error parsing review on page {page_number} for ASIN {asin}: {e}")
+                        logging.error(traceback.format_exc())  # Log the full stack trace
 
-            # Extract review elements from the current page
-            review_elements = driver.find_elements(By.CSS_SELECTOR, "div.review")
+                break  # Exit retry loop if the page was successfully scraped
 
-            # Extract review information from the current page
-            for review in review_elements:
-                try:
+            except (TimeoutException, ssl.SSLError, MaxRetryError, WebDriverException) as e:
+                logging.error(f"Error scraping page {page_number} for ASIN {asin}: {e}. Retrying...")
+                retries += 1
+                time.sleep(random.uniform(1, 3))
+                driver.quit()  # Close the driver before retrying
 
-                    # Extract review text
-                    review_text_element = review.find_elements(By.CSS_SELECTOR, "span.review-text-content span")
-                    review_text = review_text_element[0].text if review_text_element else "No Review Text"
+            finally:
+                driver.quit()  # Ensure driver is closed after the attempt
 
-                    # Collect review data
-                    all_reviews.append({'Review Text': review_text,})
+        return reviews
 
-                except Exception as e:
-                    print(f"Error parsing review: {e}")
+    # Run scraping tasks concurrently
+    all_reviews = []
+    with ThreadPoolExecutor(max_workers=3) as executor:  # Adjust the number of workers as needed
+        futures = [executor.submit(scrape_review_page, asin, page) for page in range(1, max_pages + 1)]
 
-            # Find the "Next" button and click it to go to the next page of reviews
+        for future in as_completed(futures):
             try:
-                next_button = WebDriverWait(driver, 10).until(
-                    EC.element_to_be_clickable((By.CSS_SELECTOR, "li.a-last a"))
-                )
-                if not next_button:
-                    print("Reached the last page of reviews.")
-                    break  # Exit the loop if the "Next" button is not found
-                next_button.click()
-                current_page += 1
-
-                # Wait for the new page to load
-                WebDriverWait(driver, 30).until(
-                    EC.presence_of_element_located((By.CSS_SELECTOR, "div.review"))
-                )
-                time.sleep(random.uniform(2, 4))  # Random delay to mimic human behavior
-
+                reviews = future.result()
+                all_reviews.extend(reviews)
             except Exception as e:
-                print("No more pages to scrape or 'Next' button not found.")
-                break
-
-    except Exception as e:
-        print(f"An error occurred: {e}")
-    finally:
-        # Ensure the browser is closed properly
-        driver.quit()
+                logging.error(f"Error in a concurrent task for ASIN {asin}: {e}")
+                logging.error(traceback.format_exc())  # Log the full stack trace for the failed task
 
     return all_reviews
