@@ -8,9 +8,10 @@ DB_PASSWORD = "MAN0nTH3m00n$"
 DB_HOST = "localhost"
 DB_PORT = "5432"
 
+# Func: Provides a PostgreSQL database connection.
+# Returns: A connection object
 @contextmanager
 def get_db_connection():
-    # Context manager for PostgreSQL database connection.
     conn = psycopg2.connect(
         dbname=DB_NAME,
         user=DB_USER,
@@ -19,6 +20,6 @@ def get_db_connection():
         port=DB_PORT
     )
     try:
-        yield conn
+        yield conn  # Return the connection object
     finally:
-        conn.close()
+        conn.close()  # Ensure the connection is closed after use

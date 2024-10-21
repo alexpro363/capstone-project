@@ -23,6 +23,13 @@ body, html {
   margin-bottom: 30px;
 }
 
+.app-subtitle {
+  font-size: 1.5rem;
+  color: #ffc107;  
+  margin-bottom: 20px;
+}
+
+/* Search bar */
 .search-bar {
   margin: 20px 0;
   display: flex;
@@ -78,11 +85,12 @@ body, html {
   width: 280px;
   color: #fff;
   box-shadow: 0 4px 8px rgba(255, 255, 255, 0.3);
-  transition: transform 0.2s;
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .product-card:hover {
   transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(255, 255, 255, 0.5); /* Enhanced hover effect */
 }
 
 .product-image {
@@ -127,11 +135,12 @@ body, html {
   text-decoration: none;
   font-weight: bold;
   border-radius: 5px;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, transform 0.3s;
 }
 
 .product-info a:hover {
   background-color: #ffca28;
+  transform: scale(1.05); /* Slight zoom effect on hover */
 }
 
 /*spinner*/
@@ -161,4 +170,33 @@ body, html {
   color: #ffc107;
   margin-top: 15px;
   font-size: 1.2rem;
+}
+
+/* Recent Searches dropdown */
+.recent-searches-dropdown {
+  margin-top: 20px;
+  width: 100%;
+}
+
+.recent-searches-dropdown h3 {
+  font-size: 1.5rem;
+  color: #ffc107;
+  margin-bottom: 15px;
+}
+
+/* Buttons */
+button {
+  background-color: #ffc107;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  color: #1e1e1e;
+  font-weight: bold;
+  margin-top: 20px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #ffca28;
 }

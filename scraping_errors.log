@@ -1,159 +1,103 @@
+INFO:werkzeug: * Detected change in 'C:\\Users\\Alexp\\capstone-project\\app.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 102-775-429
 INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
  * Running on http://127.0.0.1:5000
 INFO:werkzeug:[33mPress CTRL+C to quit[0m
 INFO:werkzeug: * Restarting with stat
 WARNING:werkzeug: * Debugger is active!
 INFO:werkzeug: * Debugger PIN: 102-775-429
-INFO:werkzeug:127.0.0.1 - - [17/Oct/2024 10:20:36] "OPTIONS /search HTTP/1.1" 200 -
-ERROR:root:Error scraping page 1 for ASIN B075P7J8BB: Message: 
-. Retrying...
-ERROR:root:Error scraping page 3 for ASIN B075P7J8BB: Message: 
-. Retrying...
-ERROR:root:Error scraping page 1 for ASIN B075P7J8BB: Message: 
-. Retrying...
-ERROR:root:Error scraping page 2 for ASIN B081HQFJWZ: Message: 
-. Retrying...
-ERROR:root:Error scraping page 3 for ASIN B081HQFJWZ: Message: 
-. Retrying...
-ERROR:root:Error scraping page 3 for ASIN B081HQFJWZ: Message: 
-. Retrying...
-ERROR:root:Error scraping page 3 for ASIN B081HQFJWZ: Message: 
-. Retrying...
-ERROR:root:Error scraping page 1 for ASIN B08CF34DJV: Message: 
-. Retrying...
-ERROR:root:Error scraping page 1 for ASIN B08CF34DJV: Message: 
-. Retrying...
-ERROR:root:Error scraping page 2 for ASIN B0B6HLGMXB: Message: 
-. Retrying...
-ERROR:root:Error scraping page 2 for ASIN B0B6HLGMXB: Message: 
-. Retrying...
-ERROR:root:Error scraping page 3 for ASIN B0BN5F6MJY: Message: 
-. Retrying...
-ERROR:root:Error scraping page 3 for ASIN B083JBZXYS: Message: 
-. Retrying...
-ERROR:root:Error scraping page 3 for ASIN B083JBZXYS: Message: 
-. Retrying...
-ERROR:root:Error scraping page 2 for ASIN B0B6D6GML1: Message: 
-. Retrying...
-ERROR:root:Error scraping page 3 for ASIN B0B6D6GML1: Message: 
-. Retrying...
-ERROR:root:Error scraping page 2 for ASIN B0B6D6GML1: Message: 
-. Retrying...
-ERROR:root:Error scraping page 3 for ASIN B0B6D6GML1: Message: 
-. Retrying...
-INFO:werkzeug:127.0.0.1 - - [17/Oct/2024 10:44:42] "[35m[1mPOST /search HTTP/1.1[0m" 500 -
+INFO:werkzeug:127.0.0.1 - - [20/Oct/2024 22:01:30] "GET /recent_searches HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Oct/2024 22:01:30] "GET /recent_searches HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\Alexp\\capstone-project\\database\\db_search_query.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 102-775-429
+INFO:werkzeug: * Detected change in 'C:\\Users\\Alexp\\capstone-project\\database\\db_search_query.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 102-775-429
+INFO:werkzeug: * Detected change in 'C:\\Users\\Alexp\\capstone-project\\database\\db_search_query.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 102-775-429
+INFO:werkzeug: * Detected change in 'C:\\Users\\Alexp\\capstone-project\\database\\db_search_query.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 102-775-429
+INFO:werkzeug: * Detected change in 'C:\\Users\\Alexp\\capstone-project\\database\\db_search_query.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 102-775-429
+INFO:werkzeug: * Detected change in 'C:\\Users\\Alexp\\capstone-project\\database\\db_search_query.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 102-775-429
 INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
  * Running on http://127.0.0.1:5000
 INFO:werkzeug:[33mPress CTRL+C to quit[0m
 INFO:werkzeug: * Restarting with stat
 WARNING:werkzeug: * Debugger is active!
 INFO:werkzeug: * Debugger PIN: 102-775-429
-INFO:werkzeug:127.0.0.1 - - [17/Oct/2024 11:03:25] "OPTIONS /search HTTP/1.1" 200 -
-ERROR:root:Error scraping page 3 for ASIN B0B499BXWC: Message: 
-. Retrying...
-ERROR:root:Error scraping page 3 for ASIN B08CF34DJV: Message: 
-. Retrying...
-ERROR:root:Error scraping page 1 for ASIN B00EJQQUM8: Message: 
-. Retrying...
-ERROR:root:Error scraping page 1 for ASIN B07KG2X2GZ: Message: 
-. Retrying...
-ERROR:root:Error scraping page 2 for ASIN B07KG2X2GZ: Message: 
-. Retrying...
-ERROR:root:Error scraping page 2 for ASIN B0B499BXWC: Message: 
-. Retrying...
-ERROR:root:Error scraping page 1 for ASIN B00EJQQUM8: Message: 
-. Retrying...
-ERROR:root:Error scraping page 1 for ASIN B07KG2X2GZ: Message: 
-. Retrying...
-ERROR:root:Error scraping page 3 for ASIN B08CF34DJV: Message: 
-. Retrying...
-ERROR:root:Error scraping page 2 for ASIN B0B499BXWC: Message: 
-. Retrying...
-ERROR:root:Error scraping page 1 for ASIN B089WZMB7R: Message: 
-. Retrying...
-ERROR:root:Error scraping page 1 for ASIN B00EJQQUM8: Message: 
-. Retrying...
-ERROR:root:Error scraping page 3 for ASIN B006LXOJC0: Message: 
-. Retrying...
-ERROR:root:Error scraping page 1 for ASIN B089WZMB7R: Message: 
-. Retrying...
-ERROR:root:Error scraping page 3 for ASIN B084BS1J9K: Message: 
-. Retrying...
-ERROR:root:Error scraping page 2 for ASIN B09V5NPHP3: Message: 
-. Retrying...
-ERROR:root:Error scraping page 1 for ASIN B09V5NPHP3: Message: 
-. Retrying...
-ERROR:root:Error scraping page 1 for ASIN B0BN5F6MJY: Message: 
-. Retrying...
-ERROR:root:Error scraping page 1 for ASIN B006LXOJC0: Message: 
-. Retrying...
-ERROR:root:Error scraping page 2 for ASIN B09V5NPHP3: Message: 
-. Retrying...
-ERROR:root:Error scraping page 3 for ASIN B006LXOJC0: Message: 
-. Retrying...
-ERROR:root:Error scraping page 1 for ASIN B006LXOJC0: Message: 
-. Retrying...
-ERROR:root:Error scraping page 3 for ASIN B006LXOJC0: Message: 
-. Retrying...
-ERROR:root:Error scraping page 3 for ASIN B0BN5F6MJY: Message: timeout: Timed out receiving message from renderer: 296.264
-  (Session info: chrome=129.0.6668.90)
-Stacktrace:
-	GetHandleVerifier [0x00D35523+24195]
-	(No symbol) [0x00CCAA04]
-	(No symbol) [0x00BC2093]
-	(No symbol) [0x00BAE285]
-	(No symbol) [0x00BADFB8]
-	(No symbol) [0x00BAC408]
-	(No symbol) [0x00BACABD]
-	(No symbol) [0x00BB8C8A]
-	(No symbol) [0x00BCD215]
-	(No symbol) [0x00BD1816]
-	(No symbol) [0x00BAD0EC]
-	(No symbol) [0x00BCD08E]
-	(No symbol) [0x00C455B1]
-	(No symbol) [0x00C2A8D6]
-	(No symbol) [0x00BFBA27]
-	(No symbol) [0x00BFC43D]
-	GetHandleVerifier [0x00FFCE13+2938739]
-	GetHandleVerifier [0x0104EC69+3274185]
-	GetHandleVerifier [0x00DC09C2+594722]
-	GetHandleVerifier [0x00DC7EDC+624700]
-	(No symbol) [0x00CD37CD]
-	(No symbol) [0x00CD0528]
-	(No symbol) [0x00CD06C5]
-	(No symbol) [0x00CC2CA6]
-	BaseThreadInitThunk [0x76C77BA9+25]
-	RtlInitializeExceptionChain [0x77CCC0CB+107]
-	RtlClearBits [0x77CCC04F+191]
-. Retrying...
-ERROR:root:Error scraping page 3 for ASIN B0BN5F6MJY: Message: 
-. Retrying...
-INFO:werkzeug:127.0.0.1 - - [17/Oct/2024 11:20:25] "POST /search HTTP/1.1" 200 -
-INFO:werkzeug: * Detected change in 'C:\\Users\\Alexp\\capstone-project\\sentiment\\model.py', reloading
+INFO:werkzeug:127.0.0.1 - - [20/Oct/2024 22:08:52] "OPTIONS /search HTTP/1.1" 200 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
 INFO:werkzeug: * Restarting with stat
 WARNING:werkzeug: * Debugger is active!
 INFO:werkzeug: * Debugger PIN: 102-775-429
-INFO:werkzeug: * Detected change in 'C:\\Users\\Alexp\\capstone-project\\database\\db_insert.py', reloading
-INFO:werkzeug: * Restarting with stat
-WARNING:werkzeug: * Debugger is active!
-INFO:werkzeug: * Debugger PIN: 102-775-429
-INFO:werkzeug: * Detected change in 'C:\\Users\\Alexp\\capstone-project\\database\\db_insert.py', reloading
-INFO:werkzeug: * Restarting with stat
-WARNING:werkzeug: * Debugger is active!
-INFO:werkzeug: * Debugger PIN: 102-775-429
-INFO:werkzeug: * Detected change in 'C:\\Users\\Alexp\\capstone-project\\database\\db_insert.py', reloading
-INFO:werkzeug: * Restarting with stat
-WARNING:werkzeug: * Debugger is active!
-INFO:werkzeug: * Debugger PIN: 102-775-429
-INFO:werkzeug: * Detected change in 'C:\\Users\\Alexp\\capstone-project\\scraper\\fetch_amazon_reviews.py', reloading
-INFO:werkzeug: * Restarting with stat
-WARNING:werkzeug: * Debugger is active!
-INFO:werkzeug: * Debugger PIN: 102-775-429
-INFO:werkzeug: * Detected change in 'C:\\Users\\Alexp\\capstone-project\\scraper\\fetch_amazon_reviews.py', reloading
-INFO:werkzeug: * Restarting with stat
-WARNING:werkzeug: * Debugger is active!
-INFO:werkzeug: * Debugger PIN: 102-775-429
-INFO:werkzeug: * Detected change in 'C:\\Users\\Alexp\\capstone-project\\database\\db_insert.py', reloading
-INFO:werkzeug: * Restarting with stat
-WARNING:werkzeug: * Debugger is active!
-INFO:werkzeug: * Debugger PIN: 102-775-429
+INFO:werkzeug:127.0.0.1 - - [20/Oct/2024 22:09:54] "GET /recent_searches HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Oct/2024 22:09:55] "GET /recent_searches HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Oct/2024 22:16:36] "OPTIONS /search HTTP/1.1" 200 -
+ERROR:root:Error scraping page 3 for ASIN B00164U4DC: Message: 
+. Retrying...
+ERROR:root:Error scraping page 1 for ASIN B01ENK41Q6: Message: 
+. Retrying...
+ERROR:root:Error scraping page 3 for ASIN B00430C92U: Message: 
+. Retrying...
+ERROR:root:Error scraping page 2 for ASIN B01ENK41Q6: Message: 
+. Retrying...
+ERROR:root:Error scraping page 3 for ASIN B00430C92U: Message: 
+. Retrying...
+ERROR:root:Error scraping page 2 for ASIN B08773SNB3: Message: 
+. Retrying...
+ERROR:root:Error scraping page 3 for ASIN B00430C92U: Message: 
+. Retrying...
+ERROR:root:Error scraping page 1 for ASIN B000KEM4TQ: Message: 
+. Retrying...
+ERROR:root:Error scraping page 3 for ASIN B08QD33PZ2: Message: 
+. Retrying...
+ERROR:root:Error scraping page 1 for ASIN B08QD33PZ2: Message: 
+. Retrying...
+ERROR:root:Error scraping page 1 for ASIN B0C8B9V7HR: Message: 
+. Retrying...
+ERROR:root:Error scraping page 2 for ASIN B0C8B9V7HR: Message: 
+. Retrying...
+ERROR:root:Error scraping page 3 for ASIN B0C8B9V7HR: Message: 
+. Retrying...
+ERROR:root:Error scraping page 3 for ASIN B08QD33PZ2: Message: 
+. Retrying...
+ERROR:root:Error scraping page 3 for ASIN B08VDZB68W: Message: 
+. Retrying...
+ERROR:root:Error scraping page 1 for ASIN B0C8B9V7HR: Message: 
+. Retrying...
+ERROR:root:Error scraping page 2 for ASIN B08VDZB68W: Message: 
+. Retrying...
+ERROR:root:Error scraping page 3 for ASIN B0C8B9V7HR: Message: 
+. Retrying...
+ERROR:root:Error scraping page 3 for ASIN B08QD33PZ2: Message: 
+. Retrying...
+ERROR:root:Error scraping page 2 for ASIN B0C8B9V7HR: Message: 
+. Retrying...
+ERROR:root:Error scraping page 1 for ASIN B0C8B9V7HR: Message: 
+. Retrying...
+ERROR:root:Error scraping page 2 for ASIN B08VDZB68W: Message: 
+. Retrying...
+ERROR:root:Error scraping page 3 for ASIN B0C8B9V7HR: Message: 
+. Retrying...
+ERROR:root:Error scraping page 2 for ASIN B07457Z312: Message: 
+. Retrying...
+ERROR:root:Error scraping page 3 for ASIN B08VDZB68W: Message: 
+. Retrying...
+INFO:werkzeug:127.0.0.1 - - [20/Oct/2024 22:24:02] "POST /search HTTP/1.1" 200 -

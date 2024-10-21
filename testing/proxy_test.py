@@ -4,7 +4,10 @@ import sys
 
 # Add the project root directory to PYTHONPATH
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 from scraper import create_driver
+
+
 def test_proxy():
     driver = create_driver()
 

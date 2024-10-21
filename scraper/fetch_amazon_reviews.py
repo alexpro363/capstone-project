@@ -1,3 +1,5 @@
+#Developed with the help of ChatGPT 4o
+
 import ssl
 import logging
 import traceback
@@ -6,34 +8,39 @@ from selenium.common.exceptions import WebDriverException, TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.action_chains import ActionChains
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import time
 import random
-from .chrome_options import create_driver  # Import Chrome options setup function
+from .chrome_options import create_driver
 
-# Configure logging
+# Configure logging for scraping errors
 logging.basicConfig(filename='scraping_errors.log', level=logging.ERROR)
 
+# Func: Fetches reviews for a specific Amazon product using its ASIN
+# Parameters: asin (str) - The ASIN of the product to fetch reviews for; max_pages (int) - Maximum number of review pages to scrape
+# Returns: A list of dictionaries containing review data
 def fetch_amazon_reviews(asin, max_pages=3):
-    """Fetches reviews for a specific Amazon product using its ASIN concurrently."""
-    retries = 6  # Number of retries for each request if one fails due to SSL error or page error
+    retries = 5  # Number of retries for each request if one fails due to error
 
+    # Func: Attempts to create a webdriver with retries for errors
+    # Returns: A webdriver instance or raises an Exception after max retries
     def get_driver_with_retry():
-        """Attempt to create a WebDriver with retries for SSL errors or WebDriverExceptions."""
         attempt = 0
         while attempt < retries:
             try:
                 driver = create_driver()
+                driver.set_page_load_timeout(90)
                 return driver
             except (ssl.SSLError, MaxRetryError, WebDriverException) as e:
                 attempt += 1
                 logging.error(f"SSL or WebDriver error encountered: {e}. Retrying {attempt}/{retries}...")
-                time.sleep(2)  # Wait a bit before retrying
+                time.sleep(2)  # Wait before retrying
         raise Exception("Max retries reached. Could not create a WebDriver instance.")
 
+    # Func: Scrapes a review page for a product using its ASIN
+    # Parameters: asin (str) - The ASIN of the product; page_number (int) - The page number to scrape
+    # Returns: A list of reviews scraped from the page
     def scrape_review_page(asin, page_number):
-        """Scrapes a single review page with retry mechanism."""
         max_page_retries = 3  # Number of retries for a single page
         retries = 0
         reviews = []
@@ -45,24 +52,18 @@ def fetch_amazon_reviews(asin, max_pages=3):
                 url = f"https://www.amazon.com/product-reviews/{asin}/?pageNumber={page_number}"
                 driver.get(url)
 
-                # Check if the page contains CAPTCHA or is blocked
+                # Check if page is blocked or contains CAPTCHA
                 if "Enter the characters you see below" in driver.page_source or "Sorry, we just need to make sure you're not a robot." in driver.page_source:
                     logging.warning(f"CAPTCHA encountered on page {page_number}. Retrying...")
-                    time.sleep(random.uniform(3, 5))  # Random delay to mimic human behavior
                     driver.quit()
                     retries += 1
                     continue  # Retry the page with a new driver instance
 
-                # Random scroll to a position on the page to mimic human behavior
-                scroll_position = random.randint(500, 1500)
-                driver.execute_script(f"window.scrollTo(0, {scroll_position});")
-                time.sleep(random.uniform(1, 2))  # Random delay
-
                 # Scroll to the bottom of the page to ensure all content loads
                 driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-                time.sleep(random.uniform(2, 5))  # Wait for new content to load (if needed)
+                time.sleep(random.uniform(1, 2))  # Wait for new content to load if needed
 
-                # Increase WebDriverWait timeout to 20 seconds to allow slower page loads
+                # Wait for the presence of reviews
                 WebDriverWait(driver, 10).until(
                     EC.presence_of_all_elements_located((By.CSS_SELECTOR, "div.review"))
                 )
@@ -71,6 +72,7 @@ def fetch_amazon_reviews(asin, max_pages=3):
                 review_elements = driver.find_elements(By.CSS_SELECTOR, "div.review")
                 for review in review_elements:
                     try:
+                        # Extract review text
                         review_text_element = review.find_elements(By.CSS_SELECTOR, "span.review-text-content span")
                         review_text = review_text_element[0].text if review_text_element else "No Review Text"
                         reviews.append({'Review Text': review_text})
@@ -83,7 +85,6 @@ def fetch_amazon_reviews(asin, max_pages=3):
             except (TimeoutException, ssl.SSLError, MaxRetryError, WebDriverException) as e:
                 logging.error(f"Error scraping page {page_number} for ASIN {asin}: {e}. Retrying...")
                 retries += 1
-                time.sleep(random.uniform(1, 3))
                 driver.quit()  # Close the driver before retrying
 
             finally:
@@ -91,11 +92,12 @@ def fetch_amazon_reviews(asin, max_pages=3):
 
         return reviews
 
-    # Run scraping tasks concurrently
+    # Run scraping tasks concurrently for faster scraping
     all_reviews = []
-    with ThreadPoolExecutor(max_workers=3) as executor:  # Adjust the number of workers as needed
+    with ThreadPoolExecutor(max_workers=3) as executor:
         futures = [executor.submit(scrape_review_page, asin, page) for page in range(1, max_pages + 1)]
 
+        # Collect reviews from all pages
         for future in as_completed(futures):
             try:
                 reviews = future.result()

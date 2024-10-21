@@ -1,13 +1,12 @@
 from .db_cursor import get_db_cursor
 
+# Func: Deletes products and their associated reviews for a specific query ID
+# Parameters: query_id (int) - The ID of the query whose products and reviews will be deleted
+# Returns: N/A
 def delete_products_and_reviews(query_id):
-   
-    #Delete all products and reviews for a specific query ID.
-
-    #param query_id: The ID of the query whose products and reviews should be deleted.
     
     with get_db_cursor(commit=True) as cursor:
-        # Delete all reviews associated with the products for the given query
+        # Delete reviews associated with the products for the given query
         cursor.execute(
             """
             DELETE FROM reviews
@@ -18,7 +17,7 @@ def delete_products_and_reviews(query_id):
             (query_id,)
         )
         
-        # Delete all products associated with the given query
+        # Delete products associated with the given query
         cursor.execute(
             """
             DELETE FROM products
