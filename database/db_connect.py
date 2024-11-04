@@ -2,9 +2,9 @@ import psycopg2
 from contextlib import contextmanager
 
 # Database connection details
-DB_NAME = "project_db" 
-DB_USER = "postgres"    
-DB_PASSWORD = "MAN0nTH3m00n$"
+DB_NAME = "" 
+DB_USER = ""    
+DB_PASSWORD = ""
 DB_HOST = "localhost"
 DB_PORT = "5432"
 
