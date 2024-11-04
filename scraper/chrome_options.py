@@ -40,8 +40,8 @@ def set_chrome_options():
 def create_driver():
 
     # BrightData proxy credentials
-    BRIGHTDATA_USERNAME = "brd-customer-hl_363c581a-zone-residential_proxy1-country-us"
-    BRIGHTDATA_PASSWORD = "len1mr14ww8c"
+    BRIGHTDATA_USERNAME = ""
+    BRIGHTDATA_PASSWORD = ""
     BRIGHTDATA_ENDPOINT = "brd.superproxy.io:22225"
     proxy_url = f'http://{BRIGHTDATA_USERNAME}:{BRIGHTDATA_PASSWORD}@{BRIGHTDATA_ENDPOINT}'
 
